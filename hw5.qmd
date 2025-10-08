@@ -3,7 +3,8 @@ title: "QTM 350 HW 5: World Development Indicators"
 author: "Caitlyn Ye"
 date: "2025-10-03" 
 format:
-  html: default
+  html:
+    embed-resources: true
   pdf: default
 bibliography: references.bib
 ---
