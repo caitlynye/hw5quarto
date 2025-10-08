@@ -1,0 +1,63 @@
+---
+title: "QTM 350 HW 5: World Development Indicators"
+author: "Caitlyn Ye"
+date: "2025-10-03" 
+format:
+  html: default
+  pdf: default
+bibliography: references.bib
+---
+```{python}
+#| include: false
+## Read Dataset
+import pandas as pd
+df = pd.read_csv("wdi.csv")
+df.head()
+```
+
+```{python}
+#| echo: true
+## summary statistics table
+indicators = ["unemployment_rate","life_expectancy","gdp_per_capita"]
+summary = df[indicators].describe().T
+summary = summary[["count","mean","std","min","25%","50%","75%","max"]]
+summary
+```
+
+## Findings from summary
+-The gdp per capita distribution has a wide range of values. The maximum gdp per capita is more than 10x the minimum.
+
+-The life expectancy variable is relatively concentrated — over half of the countries have a life expectancy between 70-80 years.
+
+-The unemployment rate of countries is also concentrated with the mean being 7.27% and the 75% quantile being 9.46%. However, the maximum unemployment rate is 37.85%. 
+
+```{python}
+#| echo: false 
+#| label: fig-gdpvslifeexp
+#| fig-cap: "This figure is a scatter plot of GDP per Capita vs. Life Expectancy for countries in the dataset"
+
+#make graphs
+import matplotlib.pyplot as plt
+
+plt.scatter(df["gdp_per_capita"], df["life_expectancy"])
+plt.xlabel("GDP per Capita")
+plt.ylabel("Life Expectancy")
+plt.title("GDP per Capita vs. Life Expectancy")
+plt.show()
+```
+- As GDP increases, life expectancy increases. A higher GDP means more economic flourishing, allowing more of the country to have access to a healthier lifestyle.
+```{python}
+#| echo: false 
+#| label: fig-unemployment
+#| fig-cap: "This bar chart shows the top 10 countries with the highest unemployment rates"
+
+top10 = df.sort_values("unemployment_rate", ascending=False).head(10)
+
+plt.barh(top10["country"], top10["unemployment_rate"])
+plt.xlabel("Rate (%)")
+plt.title("Top 10 Countries With the Highest Unemployment Rate")
+plt.show()
+```
+- Many of the countries on this list are in Africa.
+
+For a visual plotting of GDP per Capita vs. Life expectancy please see @fig-gdpvslifeexp. For a bar graph of the top 10 countries with the highest unemployment rate please see @fig-unemployment. A reference for the dataset is @world1978world. A reference towards inequality shown by the world indicators is from @pillarisetti1997empirical.
